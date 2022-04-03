@@ -107,6 +107,23 @@ export enum ZoneState {
 
 export enum DeviceState {
   ArmedAway = 1,
+  Disarmed = 2,
+  ArmedStay = 3,
 }
+
+//#endregion
+
+export interface AlarmRemoteArmResponse extends M2MResponse {
+  ExternalDevices: ExternalDevice[];
+  ZonesInfo: ZoneInfo;
+}
+
+export enum ArmState {
+  Unarmed = 0,
+  ArmedAway = 1,
+  ArmedStay = 2,
+}
+
+//#region Remote Arm
 
 //#endregion

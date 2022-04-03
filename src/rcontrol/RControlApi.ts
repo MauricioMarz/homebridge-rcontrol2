@@ -1,14 +1,19 @@
 import { User } from "homebridge";
 import fetch, { Headers } from "node-fetch";
 import {
+  AlarmRemoteArmConfig,
+  AlarmRemoteUnArmConfig,
   CreateAccessTokenResponse,
   CreateAuthCodeResponse,
   DeviceDataRequestConfig,
 } from "./types";
 import {
   AlarmZoneUserGroupPartition,
+  ArmState,
+  DeviceState,
   GetAllDeviceDataResponse,
   GetUserSettingsResponse,
+  M2MResponse,
   PartitionType,
   ZoneInfo,
   ZoneState,
@@ -28,9 +33,10 @@ export default class RControlApi {
 
       this.accessToken = await this.createAccessToken(this.authCode);
 
-      console.log("Successfully logged in", this.authCode, this.accessToken);
+      // console.log("Successfully logged in", this.authCode, this.accessToken);
     } catch (error) {
       console.error(`Login error:`, error);
+      throw error;
     }
   }
 
@@ -134,17 +140,59 @@ export default class RControlApi {
       resBody.AlarmControlSettingsV2Response.ExternalDevices[0].ZonesInfo
     );
 
+    const deviceState =
+      resBody.AlarmControlSettingsV2Response.ExternalDevices[0].DeviceState;
+
     let deviceInfo = {
       IMEI: resBody.AlarmControlSettingsV2Response.IMEI,
       SerialNumber: resBody.AlarmControlSettingsV2Response.SerialNumber,
+      DeviceState: DeviceState[deviceState],
       Users: users,
       zones: zones.map(this.convertZoneToHumanReadable),
       partitions: partitions,
     };
 
-    console.log(deviceInfo);
-
     return resBody;
+  }
+
+  //#endregion
+
+  //#region Action Methods
+
+  public async RemoteArm(config: AlarmRemoteArmConfig) {
+    if (this.accessToken == null) throw Error("Access Token can not be null");
+
+    const response = await fetch(`${API_URL}/remotearm`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        M2MOAuth2Token: this.accessToken,
+      },
+      body: JSON.stringify({
+        KeybusMode: true,
+        OutDelay: "",
+        PartitionNumber: config.PartitionNumber,
+        ProtocolNumber: 4,
+        OutPIN: "-1",
+        SerialNumber: config.SerialNumber,
+        UserNumber: config.UserNumber,
+        ArmingState: config.ArmingState,
+        IMEI: config.IMEI,
+        UserPIN: config.UserPIN,
+      }),
+    });
+
+    const resBody: M2MResponse = await response.json();
+
+    if (!resBody.Success) {
+      throw Error(resBody.ErrorString);
+    }
+
+    return resBody.Success;
+  }
+
+  public async RemoteUnarm(config: AlarmRemoteUnArmConfig) {
+    return this.RemoteArm({ ...config, ArmingState: ArmState.Unarmed });
   }
 
   //#endregion
