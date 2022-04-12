@@ -1,23 +1,22 @@
-import { User } from "homebridge";
-import fetch, { Headers } from "node-fetch";
+import fetch from "node-fetch";
 import {
   AlarmRemoteArmConfig,
   AlarmRemoteUnArmConfig,
-  CreateAccessTokenResponse,
-  CreateAuthCodeResponse,
   DeviceDataRequestConfig,
-} from "./types";
+} from "./types/configs";
 import {
   AlarmZoneUserGroupPartition,
   ArmState,
   DeviceState,
   GetAllDeviceDataResponse,
+  CreateAccessTokenResponse,
   GetUserSettingsResponse,
+  CreateAuthCodeResponse,
   M2MResponse,
   PartitionType,
   ZoneInfo,
   ZoneState,
-} from "./types/RControlApi";
+} from "./types/rcontrol-types";
 
 export const API_URL =
   "https://app.m2mservices.com/CommonAdministrationService/api/v2";
@@ -55,7 +54,7 @@ export default class RControlApi {
       }),
     });
 
-    const resBody: CreateAuthCodeResponse = await response.json();
+    const resBody: CreateAuthCodeResponse = (await response.json()) as any;
 
     if (resBody.Success) {
       return resBody.AuthCode;
@@ -75,7 +74,7 @@ export default class RControlApi {
       }),
     });
 
-    const resBody: CreateAccessTokenResponse = await response.json();
+    const resBody: CreateAccessTokenResponse = (await response.json()) as any;
 
     if (resBody.Success) {
       return resBody.AccessToken;
@@ -90,7 +89,7 @@ export default class RControlApi {
 
   public async getUserSettings() {
     if (this.accessToken == null)
-      throw Error("Login Request to get device data");
+      throw Error("Could not get user settings as access token is null");
 
     const response = await fetch(`${API_URL}/gethausersettings`, {
       method: "POST",
@@ -101,7 +100,7 @@ export default class RControlApi {
       body: "{}",
     });
 
-    const resBody: GetUserSettingsResponse = await response.json();
+    const resBody: GetUserSettingsResponse = (await response.json()) as any;
 
     if (resBody.Success) {
       return resBody.HAUserSettings;
@@ -112,7 +111,7 @@ export default class RControlApi {
 
   public async getDeviceData(config: DeviceDataRequestConfig) {
     if (this.accessToken == null)
-      throw Error("Login Request to get device data");
+      throw Error("Could not get device data as access token was null");
 
     const response = await fetch(`${API_URL}/getalldevicedata`, {
       method: "POST",
@@ -128,7 +127,7 @@ export default class RControlApi {
       }),
     });
 
-    const resBody: GetAllDeviceDataResponse = await response.json();
+    const resBody: GetAllDeviceDataResponse = (await response.json()) as any;
 
     if (!resBody.Success) {
       throw Error(resBody.ErrorString);
@@ -182,7 +181,7 @@ export default class RControlApi {
       }),
     });
 
-    const resBody: M2MResponse = await response.json();
+    const resBody: M2MResponse = (await response.json()) as any;
 
     if (!resBody.Success) {
       throw Error(resBody.ErrorString);

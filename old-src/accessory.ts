@@ -1,6 +1,4 @@
 import { AccessoryConfig, AccessoryPlugin, API, CharacteristicEventTypes, CharacteristicGetCallback, CharacteristicSetCallback, CharacteristicValue, HAP, Logging, Service} from "homebridge";
-import { ServerAlarmState, Options, GetUserSettingsPostResponse, GetAllDeviceDataPostResponse } from "./types";
-import { RControlAPI } from "./api";
 
 export = (api: API) => {
     api.registerAccessory("RControl", RControl);

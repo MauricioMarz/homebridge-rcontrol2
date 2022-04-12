@@ -11,30 +11,32 @@ export interface M2MResponse {
 //#region Get User Settings
 
 export interface GetUserSettingsResponse extends M2MResponse {
-  HAUserSettings: {
-    Administrator: boolean;
-    AlarmIMEIUserNumbers: AlarmIMEIUserNumber[];
-    AvailableCultures: any;
-    ClientID: number;
-    ControllerPermitions: any;
-    Culture: string;
-    DiagnosticEnable: boolean;
-    Email: string;
-    GDPRAgreements: boolean;
-    HasCreditAcount: boolean;
-    ID: string;
-    IsApproved: boolean;
-    IsLockedOut: boolean;
-    Name: string;
-    OwnerUserID: string;
-    PasswordNew: string;
-    PasswordOld: string;
-    PhoneCulture: string;
-    ReadOnly: boolean;
-    UserName: string;
-    UserNameNew: string;
-  };
+  HAUserSettings: UserSettings;
   SystemSettingsVersion: string;
+}
+
+export interface UserSettings {
+  Administrator: boolean;
+  AlarmIMEIUserNumbers: AlarmIMEIUserNumber[];
+  AvailableCultures: any;
+  ClientID: number;
+  ControllerPermitions: any;
+  Culture: string;
+  DiagnosticEnable: boolean;
+  Email: string;
+  GDPRAgreements: boolean;
+  HasCreditAcount: boolean;
+  ID: string;
+  IsApproved: boolean;
+  IsLockedOut: boolean;
+  Name: string;
+  OwnerUserID: string;
+  PasswordNew: string;
+  PasswordOld: string;
+  PhoneCulture: string;
+  ReadOnly: boolean;
+  UserName: string;
+  UserNameNew: string;
 }
 
 export interface AlarmIMEIUserNumber {
@@ -125,5 +127,26 @@ export enum ArmState {
 }
 
 //#region Remote Arm
+
+//#endregion
+
+//#region API Responses
+
+export interface CreateAccessTokenResponse {
+  AccessToken: string;
+  AdminLogin: boolean;
+  ErrorCode: number;
+  ErrorMsg: string;
+  RefreshToken: string;
+  Success: boolean;
+}
+
+export interface CreateAuthCodeResponse {
+  AdminLogin: string;
+  AuthCode: string;
+  ErrorCode: number;
+  ErrorMsg: string;
+  Success: boolean;
+}
 
 //#endregion
