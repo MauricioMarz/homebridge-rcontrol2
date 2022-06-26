@@ -1,8 +1,8 @@
 {
-  "name": "homebridge-rcontrol",
-  "version": "0.0.2",
-  "displayName": "Homebridge RControl",
-  "description": "🚨 RControl Alarm System Plugin for Homebridge",
+  "name": "homebridge-rcontrol2",
+  "version": "1.0.1",
+  "displayName": "Homebridge RControl2",
+  "description": "🚨 RControl Alarm System Plugin for Homebridge V2",
   "main": "dist/rcontrol-bridge/RControlBridge.js",
   "scripts": {
     "clean": "rimraf ./dist",
@@ -15,24 +15,24 @@
     "watch": "npm run build && npm link && nodemon",
     "homebridge": "hb-service install --user homebridge"
   },
-  "author": "Andrew Abosh",
+  "author": "Andrew Abosh / MMO",
   "engines": {
     "homebridge": ">=1.0.0"
   },
   "keywords": [
     "homebridge-plugin",
     "homebridge",
-    "rcontrol",
+    "rcontrol2",
     "alarm",
     "security system"
   ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/aabosh/homebridge-rcontrol.git"
+    "url": "git://github.com/MauricioMarz/homebridge-rcontrol2.git"
   },
   "bugs": {
-    "url": "https://github.com/aabosh/homebridge-rcontrol/issues"
+    "url": "https://github.com/MauricioMarz/homebridge-rcontrol2/issues"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
