@@ -1,5 +1,5 @@
 {
-    "pluginAlias": "RControl",
+    "pluginAlias": "RControl2",
     "pluginType": "accessory",
     "singular": false,
     "schema": {
@@ -15,19 +15,19 @@
                 "title": "Username",
                 "type": "string",
                 "required": true,
-                "description": "Username used when logging into RControl."
+                "description": "Username used when logging into RControl.."
             },
             "password": {
                 "title": "Password",
                 "type": "string",
                 "required": true,
-                "description": "Password used when logging into RControl."
+                "description": "Password used when logging into RControl.."
             },
             "pin": {
                 "title": "PIN Code",
                 "type": "string",
                 "required": true,
-                "description": "The PIN code used when remote arming from RControl."
+                "description": "The PIN code used when remote arming from RControl.."
             }
         }
     },
